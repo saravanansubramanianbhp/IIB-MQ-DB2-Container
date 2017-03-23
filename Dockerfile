@@ -30,8 +30,9 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     rpm \
     sed \
     tar \
-	util-linux \
-    rm -rf /var/lib/apt/lists/*
+	util-linux 
+
+RUN rm -rf /var/lib/apt/lists/*
 
 RUN apt-get dist-upgrade -y
 
