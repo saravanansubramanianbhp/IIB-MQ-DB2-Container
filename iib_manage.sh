@@ -60,7 +60,7 @@ config()
   if [ ${QMGR_EXISTS} -ne 0 ]; then
     echo "Checking filesystem..."
     amqmfsck /var/mqm
-    echo "----------------------------------------"
+    echo "----https://hub.jazz.net/code/edit/edit.html#/code/file/paj-OrionContent/paj%2520%257C%2520IIB-MQ-DB2/iib_manage.sh------------------------------------"
     MQ_DEV=${MQ_DEV:-"true"}
     if [ "${MQ_DEV}" == "true" ]; then
       # Turns on early adopt if we're using Developer defaults

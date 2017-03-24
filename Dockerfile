@@ -61,6 +61,9 @@ RUN mkdir -p /tmp/mq \
   	&& rm -rf /tmp/mq \
 	&& rm -rf /var/lib/apt/lists/* \
 	&& rm -rf /var/mqm 
+	&& sed -i 's/PASS_MAX_DAYS\t99999/PASS_MAX_DAYS\t90/' /etc/login.defs \
+  	&& sed -i 's/PASS_MIN_DAYS\t0/PASS_MIN_DAYS\t1/' /etc/login.defs \
+	&& sed -i 's/password\t\[success=1 default=ignore\]\tpam_unix\.so obscure sha512/password\t[success=1 default=ignore]\tpam_unix.so obscure sha512 minlen=8/' /etc/pam.d/common-password
 	
 	COPY mq-dev-config.sh mq-license-check.sh mq.sh setup-mqm-web.sh setup-var-mqm.sh /usr/local/bin/
 	COPY *.mqsc /etc/mqm/
