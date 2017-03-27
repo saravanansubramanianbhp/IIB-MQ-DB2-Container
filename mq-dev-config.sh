@@ -123,9 +123,9 @@ INSTALLATION=`dspmqver -b -f 512`
 echo "Configuring app user"
 if ! getent group mqclient; then
   # Group doesn't exist already
-  groupadd --gid 1002 mqclient
+  groupadd --gid 2002 mqclient
 fi
-configure_os_user 1002 1002 MQ_APP_NAME MQ_APP_PASSWORD /home/app
+configure_os_user 2002 2002 MQ_APP_NAME MQ_APP_PASSWORD /home/app
 # Set authorities to give access to qmgr, queues and topic
 su -l mqm -c "setmqaut -m $1 -t qmgr -g mqclient +connect"
 su -l mqm -c "setmqaut -m $1 -n \"DEV.**\" -t queue -g mqclient +put +get +browse"
