@@ -102,17 +102,17 @@ COPY odbc.ini /etc
 COPY odbcinst.ini /etc
 COPY agentx.json /home/iibuser
 COPY switch.json /home/iibuser
-RUN chgrp mqbrkrs /home/iibuser/agentx.json
-RUN chown iibuser /home/iibuser/agentx.json
-RUN chgrp mqbrkrs /home/iibuser/switch.json
-RUN chown iibuser /home/iibuser/switch.json
-RUN chmod +r /home/iibuser/agentx.json
-RUN chmod +r /home/iibuser/switch.json
-RUN chgrp mqbrkrs /etc/odbc.ini
-RUN chown iibuser /etc/odbc.ini
-RUN chmod 664 /etc/odbc.ini
-RUN chmod +rx /usr/local/bin/*.sh
-RUN chmod 666 /etc/hosts
+RUN chgrp mqbrkrs /home/iibuser/agentx.json && \
+ chown iibuser /home/iibuser/agentx.json && \
+ chgrp mqbrkrs /home/iibuser/switch.json && \
+ chown iibuser /home/iibuser/switch.json && \
+ chmod +r /home/iibuser/agentx.json && \
+ chmod +r /home/iibuser/switch.json && \
+ chgrp mqbrkrs /etc/odbc.ini && \
+ chown iibuser /etc/odbc.ini && \
+ chmod 664 /etc/odbc.ini && \
+ chmod +rx /usr/local/bin/*.sh && \
+ chmod 666 /etc/hosts
 
 # Set BASH_ENV to source mqsiprofile when using docker exec bash -c
 ENV BASH_ENV=/usr/local/bin/iib_env.sh
