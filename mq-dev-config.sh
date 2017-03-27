@@ -127,6 +127,7 @@ if ! getent group mqclient; then
 fi
 configure_os_user 2002 2002 MQ_APP_NAME MQ_APP_PASSWORD /home/app
 # Set authorities to give access to qmgr, queues and topic
+echo "About to su to mqm"
 su -l mqm -c "setmqaut -m $1 -t qmgr -g mqclient +connect"
 su -l mqm -c "setmqaut -m $1 -n \"DEV.**\" -t queue -g mqclient +put +get +browse"
 su -l mqm -c "setmqaut -m $1 -n \"DEV.**\" -t topic -g mqclient +sub +pub"

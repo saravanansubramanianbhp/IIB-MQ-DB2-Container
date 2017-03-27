@@ -47,7 +47,7 @@ RUN mkdir -p /tmp/mq \
 	&& tar -zxvf ./*.tar.gz \
 	
 	&& groupadd --gid 1000 mqm \
-  	&& useradd --uid 1000 --gid mqm mqm \
+  	&& useradd --create-home --home-dir /home/mqm --uid 1000 --gid mqm mqm \
   	&& usermod -G mqm root \
 	&& cd /tmp/mq/MQServer \
 	
@@ -89,7 +89,7 @@ RUN echo "IIB_10:" > /etc/debian_chroot  && \
     /tmp/kernel_settings.sh
 
 # Create user to run as
-RUN useradd --create-home --home-dir /home/iibuser -G mqbrkrs,sudo,mqm,root iibuser && \
+RUN useradd --create-home --home-dir /home/iibuser -G mqbrkrs,sudo,mqm iibuser && \
     sed -e 's/^%sudo	.*/%sudo	ALL=NOPASSWD:ALL/g' -i /etc/sudoers
 
 # Copy in script files
