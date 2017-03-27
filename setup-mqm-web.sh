@@ -106,7 +106,7 @@ MQ_INSTALLATION=`dspmqver -b -f 512`
 DATA_PATH=`dspmqver -b -f 4096`
 MQ_ADMIN_NAME="admin"
 echo $MQ_ADMIN_PASSWORD
-PASS_MIN_LEN=8
+PASS_MIN_LEN=8;export PASS_MIN_LEN
 MQ_ADMIN_PASSWORD=${MQ_ADMIN_PASSWORD:-"passw0rd"}
 
 if [ ! -e "/tmp/webTemp" ]; then
@@ -127,8 +127,10 @@ if [ ! -e "${DATA_PATH}/web/installations/${MQ_INSTALLATION}/angular.persistence
 fi
 
 #Run the server as mqm
+echo "about to run strmqweb"
 su -l mqm -c "bash strmqweb &"
 echo "Web Server started"
+echo "just ran strmqweb"
 
 # Print out the connection info
 IPADDR="$(hostname -I | sed -e 's/[[:space:]]*$//')"
