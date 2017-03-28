@@ -33,18 +33,18 @@ configure_os_user()
   local -r LOGIN=$(getent passwd ${ID_NUM} | cut -f1 -d:)
   if [ -z ${!USER_VAR+x} ]; then
     # MQ_CLIENT_USER is unset
-    if id --user ${USER_VAR}; then
+    if id --user ${!USER_VAR}; then
       userdel --force --remove ${LOGIN} >/dev/null 2>&1
     fi
   else
     # MQ_CLIENT_USER is set
     echo "Checking if user "${USER_VAR}" exists" 
-    if id --user ${USER_VAR}; then
+    if id --user ${!USER_VAR}; then
       # Modify the existing user
-      echo "User "${USER_VAR}" exists"
+      echo "User "${!USER_VAR}" exists"
       usermod -l ${!USER_VAR} ${LOGIN}
     else
-    echo "User "${USER_VAR}" doesn't exist"
+    echo "User "${!USER_VAR}" doesn't exist"
       useradd --uid ${ID_NUM} --gid ${GROUP_NUM} --home ${HOME} ${!USER_VAR}
     fi
 
