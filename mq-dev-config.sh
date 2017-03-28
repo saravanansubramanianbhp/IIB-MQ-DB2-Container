@@ -133,7 +133,7 @@ su -l mqm -c "setmqaut -m $1 -n \"DEV.**\" -t queue -g mqclient +put +get +brows
 su -l mqm -c "setmqaut -m $1 -n \"DEV.**\" -t topic -g mqclient +sub +pub"
 
 echo "Configuring admin user"
-configure_os_user 1001 1000 MQ_ADMIN_NAME MQ_ADMIN_PASSWORD /home/admin
+configure_os_user 3001 3000 MQ_ADMIN_NAME MQ_ADMIN_PASSWORD /home/admin
 
 if [ "${MQ_DEV}" == "true" ]; then
   echo "Configuring default objects for queue manager: $1"
