@@ -38,10 +38,13 @@ configure_os_user()
     fi
   else
     # MQ_CLIENT_USER is set
+    echo "Checking if user "${USER_VAR}" exists" 
     if id --user ${USER_VAR}; then
       # Modify the existing user
+      echo "User "${USER_VAR}" exists"
       usermod -l ${!USER_VAR} ${LOGIN}
     else
+    echo "User "${USER_VAR}" doesn't exist"
       useradd --uid ${ID_NUM} --gid ${GROUP_NUM} --home ${HOME} ${!USER_VAR}
     fi
 
