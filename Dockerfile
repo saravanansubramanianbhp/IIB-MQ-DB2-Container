@@ -79,6 +79,8 @@ RUN chmod +x /usr/local/bin/*.sh
 
 # Install DB2
 
+RUN groupadd db2iadm1 && useradd -G db2iadm1 db2inst1
+
 ENV DB2EXPRESSC_DATADIR /home/db2inst1/data
 
 ARG DB2EXPRESSC_URL=https://iwm.dhe.ibm.com/sdfdl/v2/regs2/db2pmopn/Express-C/DB2ExpressC11/Xa.2/Xb.aA_60_-i79i75pOovuyClcJ1qMJpaHCDoLJYXVlTLjE/Xc.Express-C/DB2ExpressC11/v11.1_linuxx64_expc.tar.gz/Xd./Xf.LPr.D1vk/Xg.9070528/Xi.swg-db2expressc/XY.regsrvs/XZ.FWAczrjHWpvKPtn11rjwqFPmwBM/v11.1_linuxx64_expc.tar.gz
