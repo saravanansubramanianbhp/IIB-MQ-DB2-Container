@@ -25,7 +25,10 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     libc-bin \
     lsb-release \
     libncurses-dev \
-    libstdc++6 \
+    libstdc++6-4.4-pic \
+    gcc \
+    binutils \
+    make \
     numactl \
     libaio1 \
     mount \
