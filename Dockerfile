@@ -81,7 +81,7 @@ RUN chmod +x /usr/local/bin/*.sh
 
 ENV DB2EXPRESSC_DATADIR /home/db2inst1/data
 
-DB2EXPRESSC_URL=https://iwm.dhe.ibm.com/sdfdl/v2/regs2/db2pmopn/Express-C/DB2ExpressC11/Xa.2/Xb.aA_60_-i79i75pOovuyClcJ1qMJpaHCDoLJYXVlTLjE/Xc.Express-C/DB2ExpressC11/v11.1_linuxx64_expc.tar.gz/Xd./Xf.LPr.D1vk/Xg.9070528/Xi.swg-db2expressc/XY.regsrvs/XZ.FWAczrjHWpvKPtn11rjwqFPmwBM/v11.1_linuxx64_expc.tar.gz
+ARG DB2EXPRESSC_URL=https://iwm.dhe.ibm.com/sdfdl/v2/regs2/db2pmopn/Express-C/DB2ExpressC11/Xa.2/Xb.aA_60_-i79i75pOovuyClcJ1qMJpaHCDoLJYXVlTLjE/Xc.Express-C/DB2ExpressC11/v11.1_linuxx64_expc.tar.gz/Xd./Xf.LPr.D1vk/Xg.9070528/Xi.swg-db2expressc/XY.regsrvs/XZ.FWAczrjHWpvKPtn11rjwqFPmwBM/v11.1_linuxx64_expc.tar.gz
 
 RUN curl -fSLo /tmp/expc.tar.gz $DB2EXPRESSC_URL \
 	&& cd /tmp && tar xf expc.tar.gz \
