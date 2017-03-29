@@ -13,8 +13,55 @@ EXEC_NAME=IS1
 export JDBC_SERVICE=BROKER
 export HOST_NAME=IIBDOCKER
 
+log_db2_info 
+{
+ echo -e $(date '+%Y-%m-%d %T')"\e[1;32m $@\e[0m"
+}
 
+log_db2_error 
+{
+ echo -e >&2 $(date +"%Y-%m-%d %T")"\e[1;31m $@\e[0m"
+}
 
+db2_password_check()
+{
+if [ ! -f ~/db2inst1_pw_set ]; then
+  if [ -z "$DB2INST1_PASSWORD" ]; then
+    log_db2_error "error: DB2INST1_PASSWORD not set"
+    log_db2_error "Did you forget to add -e DB2INST1_PASSWORD=... ?"
+    exit 1
+  else
+    log_db2_info "Setting db2inst1 user password..."
+    (echo "$DB2INST1_PASSWORD"; echo "$DB2INST1_PASSWORD") | passwd db2inst1 > /dev/null  2>&1
+    if [ $? != 0 ];then
+      log_db2_error "Changing password for db2inst1 failed"
+      exit 1
+    fi
+    touch ~/db2inst1_pw_set
+  fi
+fi
+	
+}
+db2_license_check()
+{
+	
+if [ ! -f ~/db2_license_accepted ];then
+  if [ -z "$LICENSE" ];then
+     log_db2_error "error: LICENSE not set"
+     log_db2_error "Did you forget to add '-e LICENSE=accept' ?"
+     exit 1
+  fi
+
+  if [ "${LICENSE}" != "accept" ];then
+     log_db2_error "error: LICENSE not set to 'accept'"
+     log_db2_error "Please set '-e LICENSE=accept' to accept License before use the DB2 software contained in this image."
+     exit 1
+  fi
+  touch ~/db2_license_accepted
+fi
+	
+	
+}
 
 stop()
 {
@@ -23,6 +70,8 @@ stop()
 	mqsistop $NODE_NAME
 	echo "Stopping Queue Manager $MQ_QMGR_NAME..."
 	endmqm $MQ_QMGR_NAME
+	log_db2_info "stopping database engine"
+	su - db2inst1 -c "db2stop force"
 }
 parameterCheck()
 {
@@ -92,8 +141,13 @@ state()
   dspmq -n -m ${MQ_QMGR_NAME} | awk -F '[()]' '{ print $4 }'
 }
 
+start_db2 
+{
+  log_DB2_info "starting database engine"
+  su - db2inst1 -c "db2start"
+}
 
-start()
+start_iib()
 {
 	su - iibuser
 	echo "----------------------------------------"
@@ -180,9 +234,12 @@ monitor()
 	done
 }
 mq-license-check.sh
+db2_license_check
+db_password_check
 parameterCheck
 config
 iib-license-check.sh
-start
+start_iib
+start_db2
 trap stop SIGTERM SIGINT
 monitor
