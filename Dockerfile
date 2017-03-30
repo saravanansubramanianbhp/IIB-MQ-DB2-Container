@@ -26,7 +26,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     libc-bin \
     lsb-release \
     libncurses-dev \
-    libstdc++6-4.4-pic \
+    libstdc++6 \
     gcc \
     binutils \
     make \
@@ -40,6 +40,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     rpm \
     sed \
     tar \
+    wget \
 	util-linux 
 
 RUN rm -rf /var/lib/apt/lists/*
