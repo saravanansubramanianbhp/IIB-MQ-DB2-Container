@@ -30,6 +30,8 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     binutils \
     make \
     libpam0g-dev \
+    libpam0g:i386 \
+    lib32stdc++6 \
     numactl \
     libaio1 \
     mount \
