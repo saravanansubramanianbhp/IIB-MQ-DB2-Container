@@ -29,7 +29,6 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     gcc \
     binutils \
     make \
-    libpam0g-dev \
     libpam0g:i386 \
     lib32stdc++6 \
     numactl \
