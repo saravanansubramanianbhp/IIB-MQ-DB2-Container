@@ -29,6 +29,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     gcc \
     binutils \
     make \
+    libpam0g-dev \
     numactl \
     libaio1 \
     mount \
