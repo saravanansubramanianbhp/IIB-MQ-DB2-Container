@@ -85,7 +85,7 @@ RUN chmod +x /usr/local/bin/*.sh
 
 # Install DB2
 
-RUN groupadd db2iadm1 && useradd -G db2iadm1 db2inst1
+RUN groupadd db2iadm1 && useradd --create-home --home-dir /home/db2inst1 -G db2iadm1 db2inst1
 
 ENV DB2EXPRESSC_DATADIR /home/db2inst1/data
 
