@@ -47,6 +47,32 @@ RUN rm -rf /var/lib/apt/lists/*
 
 RUN apt-get dist-upgrade -y
 
+# Install DB2
+
+RUN groupadd db2iadm1 && useradd --create-home --home-dir /home/db2inst1 -G db2iadm1 db2inst1
+
+ENV DB2EXPRESSC_DATADIR /home/db2inst1/data
+
+ARG DB2EXPRESSC_URL=https://iwm.dhe.ibm.com/sdfdl/v2/regs2/db2pmopn/Express-C/DB2ExpressC11/Xa.2/Xb.aA_60_-i79i76pMP-oqgvwR9YmFyeAy4PDZ0h2drcCg/Xc.Express-C/DB2ExpressC11/v11.1_linuxx64_expc.tar.gz/Xd./Xf.LPr.D1vk/Xg.9073539/Xi.swg-db2expressc/XY.regsrvs/XZ.7j755XSp8pmd2EXIweSFoznYxOw/v11.1_linuxx64_expc.tar.gz
+
+RUN curl -fkSLo /tmp/expc.tar.gz $DB2EXPRESSC_URL
+RUN cd /tmp && tar xf expc.tar.gz
+# RUN su - db2inst1 -c "/tmp/expc/db2_install -y -n -b /home/db2inst1/sqllib"
+RUN su - db2inst1 -c "db2setup -r db2expc.rsp"
+
+RUN echo '. /home/db2inst1/sqllib/db2profile' >> /home/db2inst1/.bash_profile \
+    && rm -rf /tmp/db2* && rm -rf /tmp/expc* \
+    && sed -ri  's/(ENABLE_OS_AUTHENTICATION=).*/\1YES/g' /home/db2inst1/sqllib/instance/db2rfe.cfg \
+    && sed -ri  's/(RESERVE_REMOTE_CONNECTION=).*/\1YES/g' /home/db2inst1/sqllib/instance/db2rfe.cfg \
+    && sed -ri 's/^\*(SVCENAME=db2c_db2inst1)/\1/g' /home/db2inst1/sqllib/instance/db2rfe.cfg \
+    && sed -ri 's/^\*(SVCEPORT)=48000/\1=50000/g' /home/db2inst1/sqllib/instance/db2rfe.cfg \
+	&& mkdir $DB2EXPRESSC_DATADIR && chown db2inst1.db2iadm1 $DB2EXPRESSC_DATADIR
+
+RUN su - db2inst1 -c "db2start && db2set DB2COMM=TCPIP && db2 UPDATE DBM CFG USING DFTDBPATH $DB2EXPRESSC_DATADIR IMMEDIATE && db2 create database db2inst1" \
+    && su - db2inst1 -c "db2stop force" \
+    && cd /home/db2inst1/sqllib/instance \
+	&& ./db2rfe -f ./db2rfe.cfg
+
 #Install MQ
 
 ARG MQ_URL=http://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/messaging/mqadv/mqadv_dev901_linux_x86-64.tar.gz
@@ -84,29 +110,7 @@ RUN mkdir -p /tmp/mq \
 
 RUN chmod +x /usr/local/bin/*.sh
 
-# Install DB2
 
-RUN groupadd db2iadm1 && useradd --create-home --home-dir /home/db2inst1 -G db2iadm1 db2inst1
-
-ENV DB2EXPRESSC_DATADIR /home/db2inst1/data
-
-ARG DB2EXPRESSC_URL=https://iwm.dhe.ibm.com/sdfdl/v2/regs2/db2pmopn/Express-C/DB2ExpressC11/Xa.2/Xb.aA_60_-i79i76pMP-oqgvwR9YmFyeAy4PDZ0h2drcCg/Xc.Express-C/DB2ExpressC11/v11.1_linuxx64_expc.tar.gz/Xd./Xf.LPr.D1vk/Xg.9073539/Xi.swg-db2expressc/XY.regsrvs/XZ.7j755XSp8pmd2EXIweSFoznYxOw/v11.1_linuxx64_expc.tar.gz
-
-RUN curl -fkSLo /tmp/expc.tar.gz $DB2EXPRESSC_URL
-RUN cd /tmp && tar xf expc.tar.gz
-RUN su - db2inst1 -c "/tmp/expc/db2_install -y -n -b /home/db2inst1/sqllib"
-RUN echo '. /home/db2inst1/sqllib/db2profile' >> /home/db2inst1/.bash_profile \
-    && rm -rf /tmp/db2* && rm -rf /tmp/expc* \
-    && sed -ri  's/(ENABLE_OS_AUTHENTICATION=).*/\1YES/g' /home/db2inst1/sqllib/instance/db2rfe.cfg \
-    && sed -ri  's/(RESERVE_REMOTE_CONNECTION=).*/\1YES/g' /home/db2inst1/sqllib/instance/db2rfe.cfg \
-    && sed -ri 's/^\*(SVCENAME=db2c_db2inst1)/\1/g' /home/db2inst1/sqllib/instance/db2rfe.cfg \
-    && sed -ri 's/^\*(SVCEPORT)=48000/\1=50000/g' /home/db2inst1/sqllib/instance/db2rfe.cfg \
-	&& mkdir $DB2EXPRESSC_DATADIR && chown db2inst1.db2iadm1 $DB2EXPRESSC_DATADIR
-
-RUN su - db2inst1 -c "db2start && db2set DB2COMM=TCPIP && db2 UPDATE DBM CFG USING DFTDBPATH $DB2EXPRESSC_DATADIR IMMEDIATE && db2 create database db2inst1" \
-    && su - db2inst1 -c "db2stop force" \
-    && cd /home/db2inst1/sqllib/instance \
-	&& ./db2rfe -f ./db2rfe.cfg
 
 # Install IIB V10 Developer edition
 RUN mkdir /opt/ibm && \
