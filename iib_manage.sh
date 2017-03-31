@@ -234,12 +234,12 @@ monitor()
 	done
 }
 mq-license-check.sh
-db2_license_check
-db_password_check
+#db2_license_check
+#db_password_check
 parameterCheck
 config
 iib-license-check.sh
 start_iib
-start_db2
+#start_db2
 trap stop SIGTERM SIGINT
 monitor

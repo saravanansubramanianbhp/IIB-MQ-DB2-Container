@@ -58,20 +58,20 @@ COPY db2expc.rsp /tmp
 RUN curl -fkSLo /tmp/expc.tar.gz $DB2EXPRESSC_URL
 RUN cd /tmp && tar xf expc.tar.gz
 # RUN su - db2inst1 -c "/tmp/expc/db2_install -y -n -b /home/db2inst1/sqllib"
-RUN su - db2inst1 -c "/tmp/expc/db2setup -r /tmp/db2expc.rsp"
+RUN su - db2inst1 -c "/tmp/expc/db2setup -r /tmp/db2expc.rsp" || echo "db2setup failed"
 
-RUN echo '. /home/db2inst1/sqllib/db2profile' >> /home/db2inst1/.bash_profile \
-    && rm -rf /tmp/db2* && rm -rf /tmp/expc* \
-    && sed -ri  's/(ENABLE_OS_AUTHENTICATION=).*/\1YES/g' /home/db2inst1/sqllib/instance/db2rfe.cfg \
-    && sed -ri  's/(RESERVE_REMOTE_CONNECTION=).*/\1YES/g' /home/db2inst1/sqllib/instance/db2rfe.cfg \
-    && sed -ri 's/^\*(SVCENAME=db2c_db2inst1)/\1/g' /home/db2inst1/sqllib/instance/db2rfe.cfg \
-    && sed -ri 's/^\*(SVCEPORT)=48000/\1=50000/g' /home/db2inst1/sqllib/instance/db2rfe.cfg \
-	&& mkdir $DB2EXPRESSC_DATADIR && chown db2inst1.db2iadm1 $DB2EXPRESSC_DATADIR
+# RUN echo '. /home/db2inst1/sqllib/db2profile' >> /home/db2inst1/.bash_profile \
+#    && rm -rf /tmp/db2* && rm -rf /tmp/expc* \
+#    && sed -ri  's/(ENABLE_OS_AUTHENTICATION=).*/\1YES/g' /home/db2inst1/sqllib/instance/db2rfe.cfg \
+#    && sed -ri  's/(RESERVE_REMOTE_CONNECTION=).*/\1YES/g' /home/db2inst1/sqllib/instance/db2rfe.cfg \
+#    && sed -ri 's/^\*(SVCENAME=db2c_db2inst1)/\1/g' /home/db2inst1/sqllib/instance/db2rfe.cfg \
+#    && sed -ri 's/^\*(SVCEPORT)=48000/\1=50000/g' /home/db2inst1/sqllib/instance/db2rfe.cfg \
+#	&& mkdir $DB2EXPRESSC_DATADIR && chown db2inst1.db2iadm1 $DB2EXPRESSC_DATADIR
 
-RUN su - db2inst1 -c "db2start && db2set DB2COMM=TCPIP && db2 UPDATE DBM CFG USING DFTDBPATH $DB2EXPRESSC_DATADIR IMMEDIATE && db2 create database db2inst1" \
-    && su - db2inst1 -c "db2stop force" \
-    && cd /home/db2inst1/sqllib/instance \
-	&& ./db2rfe -f ./db2rfe.cfg
+#RUN su - db2inst1 -c "db2start && db2set DB2COMM=TCPIP && db2 UPDATE DBM CFG USING DFTDBPATH $DB2EXPRESSC_DATADIR IMMEDIATE && db2 create database db2inst1" \
+#    && su - db2inst1 -c "db2stop force" \
+#    && cd /home/db2inst1/sqllib/instance \
+#	&& ./db2rfe -f ./db2rfe.cfg
 
 #Install MQ
 
