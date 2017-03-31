@@ -49,7 +49,7 @@ RUN apt-get dist-upgrade -y
 
 # Install DB2
 
-RUN groupadd db2iadm1 && useradd --create-home --home-dir /home/db2inst1 -G db2iadm1 db2inst1
+RUN groupadd -g 1100 db2iadm1 && useradd --create-home --home-dir /home/db2inst1 -G db2iadm1 db2inst1
 
 ENV DB2EXPRESSC_DATADIR /home/db2inst1/data
 
