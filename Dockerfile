@@ -54,11 +54,11 @@ RUN groupadd db2iadm1 && useradd --create-home --home-dir /home/db2inst1 -G db2i
 ENV DB2EXPRESSC_DATADIR /home/db2inst1/data
 
 ARG DB2EXPRESSC_URL=https://iwm.dhe.ibm.com/sdfdl/v2/regs2/db2pmopn/Express-C/DB2ExpressC11/Xa.2/Xb.aA_60_-i79i76pMP-oqgvwR9YmFyeAy4PDZ0h2drcCg/Xc.Express-C/DB2ExpressC11/v11.1_linuxx64_expc.tar.gz/Xd./Xf.LPr.D1vk/Xg.9073539/Xi.swg-db2expressc/XY.regsrvs/XZ.7j755XSp8pmd2EXIweSFoznYxOw/v11.1_linuxx64_expc.tar.gz
-
+COPY db2expc.rsp /tmp
 RUN curl -fkSLo /tmp/expc.tar.gz $DB2EXPRESSC_URL
 RUN cd /tmp && tar xf expc.tar.gz
 # RUN su - db2inst1 -c "/tmp/expc/db2_install -y -n -b /home/db2inst1/sqllib"
-RUN su - db2inst1 -c "/tmp/expc/db2setup -r db2expc.rsp"
+RUN su - db2inst1 -c "/tmp/expc/db2setup -r /tmp/db2expc.rsp"
 
 RUN echo '. /home/db2inst1/sqllib/db2profile' >> /home/db2inst1/.bash_profile \
     && rm -rf /tmp/db2* && rm -rf /tmp/expc* \
