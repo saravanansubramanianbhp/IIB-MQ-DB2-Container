@@ -58,7 +58,7 @@ ARG DB2EXPRESSC_URL=https://iwm.dhe.ibm.com/sdfdl/v2/regs2/db2pmopn/Express-C/DB
 RUN curl -fkSLo /tmp/expc.tar.gz $DB2EXPRESSC_URL
 RUN cd /tmp && tar xf expc.tar.gz
 # RUN su - db2inst1 -c "/tmp/expc/db2_install -y -n -b /home/db2inst1/sqllib"
-RUN su - db2inst1 -c "db2setup -r db2expc.rsp"
+RUN su - db2inst1 -c "/tmp/expc/db2setup -r db2expc.rsp"
 
 RUN echo '. /home/db2inst1/sqllib/db2profile' >> /home/db2inst1/.bash_profile \
     && rm -rf /tmp/db2* && rm -rf /tmp/expc* \
