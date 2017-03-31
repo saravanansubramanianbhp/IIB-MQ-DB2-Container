@@ -84,7 +84,7 @@ RUN mkdir -p /tmp/mq \
 	&& tar -zxvf ./*.tar.gz \
 	
 	&& groupadd --gid 2000 mqm \
-  	&& useradd --create-home --home-dir /home/mqm --uid 1000 --gid mqm mqm \
+  	&& useradd --create-home --home-dir /home/mqm --uid 2000 --gid mqm mqm \
   	&& usermod -G mqm root \
 	&& cd /tmp/mq/MQServer \
 	
