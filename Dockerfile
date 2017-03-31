@@ -83,7 +83,7 @@ RUN mkdir -p /tmp/mq \
   	&& curl -LO $MQ_URL \
 	&& tar -zxvf ./*.tar.gz \
 	
-	&& groupadd --gid 1000 mqm \
+	&& groupadd --gid 2000 mqm \
   	&& useradd --create-home --home-dir /home/mqm --uid 1000 --gid mqm mqm \
   	&& usermod -G mqm root \
 	&& cd /tmp/mq/MQServer \
