@@ -141,7 +141,7 @@ state()
   dspmq -n -m ${MQ_QMGR_NAME} | awk -F '[()]' '{ print $4 }'
 }
 
-start_db2 
+start_db2()
 {
   log_DB2_info "starting database engine"
   su - db2inst1 -c "db2start"
