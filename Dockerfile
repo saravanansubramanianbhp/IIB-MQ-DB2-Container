@@ -158,7 +158,7 @@ ENV ODBCINI=/etc/odbc.ini
 
 
 # Expose default admin port and http port, plus MQ ports
-EXPOSE 4414 7800 7883 1414 9443 50000IIB
+EXPOSE 4414 7800 7883 1414 9443 50000
 
 
 
