@@ -13,12 +13,12 @@ EXEC_NAME=IS1
 export JDBC_SERVICE=BROKER
 export HOST_NAME=IIBDOCKER
 
-log_db2_info 
+log_db2_info()
 {
  echo -e $(date '+%Y-%m-%d %T')"\e[1;32m $@\e[0m"
 }
 
-log_db2_error 
+log_db2_error()
 {
  echo -e >&2 $(date +"%Y-%m-%d %T")"\e[1;31m $@\e[0m"
 }
