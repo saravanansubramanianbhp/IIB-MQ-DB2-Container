@@ -34,6 +34,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     lib32stdc++6 \
     numactl \
     libaio1 \
+    libxml2 \
     mount \
     passwd \
     procps \
