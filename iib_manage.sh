@@ -143,7 +143,7 @@ state()
 
 start_db2()
 {
-  log_DB2_info "starting database engine"
+  log_db2_info "starting database engine"
   su - db2inst1 -c "db2start"
 }
 
