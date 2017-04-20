@@ -1,10 +1,10 @@
 # Origin
 
-this repository is a clone of the original ot4i/iibdocker repository on github
+this repository is a merge of 3 repositories - ot4i/iibdocker repository, ibm-messaging/mq-docker and db2-express-c.docker on github 
 
 # Overview
 
-This repository contains a Dockerfile and some scripts which demonstrate a way in which you might run [IBM Integration Bus](http://www-03.ibm.com/software/products/en/ibm-integration-bus) in a [Docker](https://www.docker.com/whatisdocker/) container.
+This repository contains a Dockerfile and some scripts which demonstrate a way in which you might run [IBM Integration Bus](http://www-03.ibm.com/software/products/en/ibm-integration-bus) MQ and DB2 in a [Docker](https://www.docker.com/whatisdocker/) container.
 
 IBM would [welcome feedback](#issues-and-contributions) on what is offered here.
 
@@ -13,19 +13,19 @@ IBM would [welcome feedback](#issues-and-contributions) on what is offered here.
 The image can be built using standard [Docker commands](https://docs.docker.com/userguide/dockerimages/) against the supplied Dockerfile.  For example:
 
 ~~~
-cd 10.0.0.2
-docker build -t iibv10image .
+cd IIB-MQ-DB2
+docker build -t iibmqdb2image .
 ~~~
 
-This will create an image called iibv10image in your local docker registry.
+This will create an image called iibmqdb2image in your local docker registry.
 
 # What the image contains
 
-The built image contains a full installation of [IBM Integration Bus for Developers Edition V10.0](https://ibm.biz/iibdevedn).  It does not contain an installation of IBM MQ so some functionality may not be available, or may be changed - see this [topic](http://www-01.ibm.com/support/knowledgecenter/SSMKHH_10.0.0/com.ibm.etools.mft.doc/bb28660_.htm) for more information
+The built image contains a full installation of [IBM Integration Bus for Developers Edition V10.0](https://ibm.biz/iibdevedn).  It also contains an installation of IBM MQ for developers and DB2. Note that the DB2 image URL must be obtained from the DB2 Express download site. The one supplied in the Docker file will not work, but is given as an example. 
 
 # Running a container
 
-After building a Docker image from the supplied files, you can [run a container](https://docs.docker.com/userguide/usingdocker/) which will create and start an Integration Node to which you can [deploy](http://www-01.ibm.com/support/knowledgecenter/SSMKHH_10.0.0/com.ibm.etools.mft.doc/af03890_.htm) integration solutions.
+After building a Docker image from the supplied files, you can [run a container](https://docs.docker.com/userguide/usingdocker/) which will create and start an Integration Node, and MQ Queue Manager and DB2. The Integration Node's Integration Server is the component to which you can [deploy](http://www-01.ibm.com/support/knowledgecenter/SSMKHH_10.0.0/com.ibm.etools.mft.doc/af03890_.htm) integration solutions.
 
 In order to run a container from this image, it is necessary to accept the terms of the IBM Integration Bus for Developers license.  This is achieved by specifying the environment variable `LICENSE` equal to `accept` when running the image.  You can also view the license terms by setting this variable to `view`. Failure to set the variable will result in the termination of the container with a usage statement.  You can view the license in a different language by also setting the `LANG` environment variable.
 
