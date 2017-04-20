@@ -10,7 +10,6 @@ set -e
 
 NODE_NAME=${NODE_NAME-IIBV1007}
 EXEC_NAME=IS1
-export JDBC_SERVICE=BROKER
 export HOST_NAME=IIBDOCKER
 
 log_db2_info()
@@ -175,7 +174,7 @@ start_iib()
   sudo /usr/sbin/rsyslogd
   	
   	echo "Configuring db access"
-  	mqsisetdbparms $NODE_NAME -n jdbc::sql1 -u sa -p passw0rd
+  	
   	mqsisetdbparms $NODE_NAME -n BROKER -u sa -p passw0rd
   	
 	echo "Starting node $NODE_NAME"
@@ -183,16 +182,7 @@ start_iib()
   	mqsistart $NODE_NAME
 	echo "----------------------------------------"
 
-	SERVICE_EXISTS=`mqsireportproperties $NODE_NAME -c JDBCProviders -o $JDBC_SERVICE -n Name > /dev/null ; echo $?`
 	
-	echo $SERVICE_EXISTS
-	
-	if [ ${SERVICE_EXISTS} -ne 0 ] ; then
-		echo "Creating Configurable Service "$JDBC_SERVICE
-		
-		mqsicreateconfigurableservice $NODE_NAME -c JDBCProviders -o $JDBC_SERVICE -n type4DatasourceClassName,type4DriverClassName,databaseType,jdbcProviderXASupport,portNumber,connectionUrlFormatAttr5,connectionUrlFormatAttr4,serverName,connectionUrlFormatAttr3,connectionUrlFormatAttr2,connectionUrlFormatAttr1,environmentParms,maxConnectionPoolSize,description,jarsURL,databaseName,databaseVersion,securityIdentity,connectionUrlFormat,databaseSchemaNames -v "com.microsoft.sqlserver.jdbc.SQLServerXADataSource","com.microsoft.sqlserver.jdbc.SQLServerDriver","Microsoft SQL Server","true","16152","","","cap-sg-prd-2.integration.ibmcloud.com","","","","default_none","0","default_Description","default_Path","BROKER","default_Database_Version","sql2","jdbc:sqlserver://[serverName]:[portNumber];DatabaseName=[databaseName];user=[user];password=[password]","useProvidedSchemaNames"
-
-  	fi
   	
   	
   	echo "Starting Switch Server"
