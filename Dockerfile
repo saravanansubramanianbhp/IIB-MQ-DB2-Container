@@ -54,7 +54,7 @@ RUN groupadd -g 1100 db2iadm1 && useradd --create-home --home-dir /home/db2inst1
 
 ENV DB2EXPRESSC_DATADIR /home/db2inst1/data
 
-ARG DB2EXPRESSC_URL=https://iwm.dhe.ibm.com/sdfdl/v2/regs2/db2pmopn/Express-C/DB2ExpressC11/Xa.2/Xb.aA_60_-i79i00wSrw2lwZJdIbXeXpLaxSN5cYGFjcmQ/Xc.Express-C/DB2ExpressC11/v11.1_linuxx64_expc.tar.gz/Xd./Xf.LPr.D1vk/Xg.9099298/Xi.swg-db2expressc/XY.regsrvs/XZ.WsGeqEU8FPFSQl5HZ9lXs1l3Aq0/v11.1_linuxx64_expc.tar.gz
+ARG DB2EXPRESSC_URL=https://iwm.dhe.ibm.com/sdfdl/v2/regs2/db2pmopn/Express-C/DB2ExpressC11/Xa.2/Xb.aA_60_-i79i001ddYWFjbaHqXuXpJReZYmtzgKGiR0U/Xc.Express-C/DB2ExpressC11/v11.1_linuxx64_expc.tar.gz/Xd./Xf.LPr.D1vk/Xg.9102275/Xi.swg-db2expressc/XY.regsrvs/XZ.yLTNRY2rNdl2ZRhJNcSiI4f6asI/v11.1_linuxx64_expc.tar.gz
 COPY db2expc.rsp /tmp
 RUN curl -fkSLo /tmp/expc.tar.gz $DB2EXPRESSC_URL
 RUN cd /tmp && tar xf expc.tar.gz
